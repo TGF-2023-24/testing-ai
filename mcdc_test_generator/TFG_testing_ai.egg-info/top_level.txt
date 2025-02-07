@@ -1,2 +1,0 @@
-mcdc_api
-mcdc_testcase
