@@ -1,5 +1,6 @@
 from functools import reduce
 from more_itertools import partition
+from typing import Union
 from pyeda.boolalg.bdd import BDDZERO, BDDONE
 
 from mcdc_testcase.bdd_engine import logger
@@ -523,7 +524,7 @@ def psi_printer(psi):
 
 
 def test_mcdc(f, test_case):
-    # type: (BinaryDecisionDiagram, dict) -> (dict, bool, int)
+    # type: (BinaryDecisionDiagram, dict) -> Union[(bool, bool, bool) | bool]
 
     # test_case[a] = ({a: 0, b: None, c: 0}, {a: 1, b: 1, c: None})
     # test_case[b] = ({a: 1, b: 0, c: 0}, {a: 1, b: 1, c: None})
@@ -546,7 +547,7 @@ def test_mcdc(f, test_case):
     # The logic below does not work correctly if there are still "?", so let's stop here if necessary.
     assert cond_1, list(filter(lambda p: not check_condition_1(p[0], p[1]), test_case.values()))
 
-    # 2. for condition 'a', p0, p1 in test_case then
+    # 2. for condition c_i = 'a', p0, p1 in test_case then
     # p0[c_i] != p1[c_i] for c_i = 'a' and p0[c_i] == p1[c_i] for the rest of conditions
     def check_condition_2(cp):
         (c_1, (p0, p1)) = cp
